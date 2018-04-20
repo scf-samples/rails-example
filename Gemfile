@@ -5,7 +5,11 @@ ruby '2.5.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
-gem 'mysql2'
+
+# Uncomment this line and comment the next one to switch to MySQL (run `bundle install` afterwards)
+#gem 'mysql2'
+gem 'pg'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

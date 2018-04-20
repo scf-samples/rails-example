@@ -1,0 +1,8 @@
+<h1>Hello from Rails on SCF!</h1>
+<%= Time.zone.now.to_datetime %>
+
+<ul>
+<% Todo.all.each do |todo| %>
+  <li>#<%= todo.id %>: <%= todo.text %></li>
+<% end %>
+</ul>
