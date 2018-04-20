@@ -12,30 +12,30 @@ conf={
   username: db_service['credentials']['user'],
   password: db_service['credentials']['password'],
   database: db_service['credentials']['database'],
-  host: db_service['credentials']['host'], # using an ip here make its work, otherwise the socket is looked up. https://github.com/brianmario/mysql2#connecting-to-mysql-on-localhost-and-elsewhere
+  host: db_service['credentials']['host'],
   port: db_service['credentials']['port'].to_i
 }
 
 case db_service["label"]
 when 'mysql'
-  conf["adapter"] = 'mysql2'
-  conf["encoding"] = 'utf8'
+  conf[:adapter] = 'mysql2'
+  conf[:encoding] = 'utf8'
 when 'postgres'
-  conf["adapter"] = 'postgresql'
-  conf["encoding"] = 'unicode'
+  conf[:adapter] = 'postgresql'
+  conf[:encoding] = 'unicode'
 end
 
 puts conf
 %>
 
 default: &default
-  adapter: <%= conf["adapter"] %>
-  encoding: <%= conf["encoding"] %>
-  database: <%= conf["database"] %>
-  username: <%= conf["username"] %>
-  password: <%= conf["password"] %>
-  host: <%= conf["host"] %>
-  port: <%= conf["port"] %>
+  adapter: <%= conf[:adapter] %>
+  encoding: <%= conf[:encoding] %>
+  database: <%= conf[:database] %>
+  username: <%= conf[:username] %>
+  password: <%= conf[:password] %>
+  host: <%= conf[:host] %>
+  port: <%= conf[:port] %>
   pool: 5
 
 development:
