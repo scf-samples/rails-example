@@ -1,25 +1,51 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
+<%
+
+# This code will try to connect to the first database it finds (either mysql or postgres)
+# This is just an example application so this is ok. Don't try to use this
+# code in production if you are planning to bound more than one databases.
+services = JSON.parse(ENV["VCAP_SERVICES"])
+db_service = services.values.flatten.find do |service_attrs|
+  ['mysql','postgres'].include?(service_attrs["label"])
+end
+
+conf={
+  username: db_service['credentials']['user'],
+  password: db_service['credentials']['password'],
+  database: db_service['credentials']['database'],
+  host: db_service['credentials']['host'], # using an ip here make its work, otherwise the socket is looked up. https://github.com/brianmario/mysql2#connecting-to-mysql-on-localhost-and-elsewhere
+  port: db_service['credentials']['port'].to_i
+}
+
+case db_service["label"]
+when 'mysql'
+  conf["adapter"] = 'mysql2'
+  conf["encoding"] = 'utf8'
+when 'postgres'
+  conf["adapter"] = 'postgresql'
+  conf["encoding"] = 'unicode'
+end
+
+puts conf
+%>
+
 default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  adapter: <%= conf["adapter"] %>
+  encoding: <%= conf["encoding"] %>
+  database: <%= conf["database"] %>
+  username: <%= conf["username"] %>
+  password: <%= conf["password"] %>
+  host: <%= conf["host"] %>
+  port: <%= conf["port"] %>
+  pool: 5
 
 development:
   <<: *default
-  database: db/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
 
 production:
   <<: *default
-  database: db/production.sqlite3

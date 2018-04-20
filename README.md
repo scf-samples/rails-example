@@ -1,24 +1,12 @@
-# README
+# SCF Rails example application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Deploy
 
-Things you may want to cover:
+1. Create a database service. It can be PostgreSQL or MySQL but has to be named
+   `scf-rails-example-db` to match the value in the manifest.yml file.
 
-* Ruby version
+   It will be a command like this: `cf create-service service_name the_desired_package scf-rails-example-db`
 
-* System dependencies
+   Find out what you services you have available by running `cf marketplace`.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+2. Run `cf push` from withing the root for this repository.
