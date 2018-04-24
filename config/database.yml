@@ -5,7 +5,7 @@
 # code in production if you are planning to bound more than one databases.
 services = JSON.parse(ENV["VCAP_SERVICES"])
 db_service = services.values.flatten.find do |service_attrs|
-  ['mysql','postgres'].include?(service_attrs["label"])
+  service_attrs["label"].include?('mysql') || service_attrs["label"].include?('postgres')
 end
 
 conf={
@@ -17,10 +17,10 @@ conf={
 }
 
 case db_service["label"]
-when 'mysql'
+when /mysql/
   conf[:adapter] = 'mysql2'
   conf[:encoding] = 'utf8'
-when 'postgres'
+when /postgres/
   conf[:adapter] = 'postgresql'
   conf[:encoding] = 'unicode'
 end
