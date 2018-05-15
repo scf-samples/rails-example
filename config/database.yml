@@ -8,12 +8,13 @@ db_service = services.values.flatten.find do |service_attrs|
   service_attrs["label"].include?('mysql') || service_attrs["label"].include?('postgres')
 end
 
+credentials = db_service['credentials']
 conf={
-  username: db_service['credentials']['user'],
-  password: db_service['credentials']['password'],
-  database: db_service['credentials']['database'],
-  host: db_service['credentials']['host'],
-  port: db_service['credentials']['port'].to_i
+  username: credentials['user'] || credentials['username'],
+  password: credentials['password'],
+  database: credentials['database'] || credentials['dbname'],
+  host: credentials['host'],
+  port: credentials['port'].to_i
 }
 
 case db_service["label"]
