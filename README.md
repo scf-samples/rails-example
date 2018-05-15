@@ -30,6 +30,13 @@ and then again:
 
 to do a normal deploy.
 
+## Seed data, manual trigger with one push:
+
+Alternatively, you may do a normal `cf push`, and then run the following (admittedly unwieldy) command:
+
+`cf ssh scf-rails-example -c  "export PATH=/home/vcap/deps/0/bin:/usr/local/bin:/usr/bin:/bin && export BUNDLE_PATH=/home/vcap/deps/0/vendor_bundle/ruby/2.5.0 && export BUNDLE_GEMFILE=/home/vcap/app/Gemfile && cd app && bundle exec rake db:seed"`
+
+This triggers the seed task while the app is already running, without needing to restage/restart.
 
 ## Useful links
 
